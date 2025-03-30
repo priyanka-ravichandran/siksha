@@ -28,6 +28,20 @@ router.get('/:id', (req, res) => {
     });
 });
 
+// Get assignments by student ID
+router.get('/user/:student_id', (req, res) => {
+    const studentId = req.params.student_id;
+  
+    const sql = 'SELECT * FROM assignments WHERE student_id = ?';
+    db.query(sql, [studentId], (err, results) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+  
+      res.status(200).json(results);
+    });
+  });  
+
 // Grade Assignment
 router.put('/:id/grade', (req, res) => {
     const { grade, feedback } = req.body;

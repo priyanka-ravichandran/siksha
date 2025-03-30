@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const API_URL = "http://localhost:5001/api/assignments/";
+const STUDENT_ID = "962216";
+const API_URL = `http://localhost:5001/api/assignments/user/${STUDENT_ID}`;
 
 const SubmittedAssignments = () => {
   const [assignments, setAssignments] = useState([]);
@@ -24,7 +25,9 @@ const SubmittedAssignments = () => {
       <div className="row" style={{ minHeight: "80vh" }}>
         <div className="col-md-6 border-end">
           <div className="px-4">
-            <h5 className="fw-semibold text-dark mb-3 border-bottom pb-2">📚 Assignments</h5>
+            <h5 className="fw-semibold text-dark mb-3 border-bottom pb-2">
+              📚 Assignments
+            </h5>
             <ul className="list-group">
               {assignments.map((assignment) => (
                 <li
@@ -32,10 +35,20 @@ const SubmittedAssignments = () => {
                   className="list-group-item list-group-item-action"
                   style={{
                     cursor: "pointer",
-                    backgroundColor: selectedAssignment?.id === assignment.id ? "#ffc107" : "",
-                    color: selectedAssignment?.id === assignment.id ? "#000" : "",
-                    fontWeight: selectedAssignment?.id === assignment.id ? "bold" : "normal",
-                    borderColor: selectedAssignment?.id === assignment.id ? "#ffca2c" : "",
+                    backgroundColor:
+                      selectedAssignment?.id === assignment.id
+                        ? "#ffc107"
+                        : "",
+                    color:
+                      selectedAssignment?.id === assignment.id ? "#000" : "",
+                    fontWeight:
+                      selectedAssignment?.id === assignment.id
+                        ? "bold"
+                        : "normal",
+                    borderColor:
+                      selectedAssignment?.id === assignment.id
+                        ? "#ffca2c"
+                        : "",
                   }}
                   onClick={() => setSelectedAssignment(assignment)}
                 >
@@ -52,8 +65,45 @@ const SubmittedAssignments = () => {
           <div className="px-4">
             {selectedAssignment ? (
               <>
-                <h5 className="fw-semibold text-dark mb-2 mt-2">{selectedAssignment.title}</h5>
-                <p className="text-muted mb-4">{selectedAssignment.description}</p>
+                <h5 className="fw-semibold text-dark mb-2 mt-2">
+                  {selectedAssignment.title}
+                </h5>
+                <p className="text-muted mb-3">
+                  {selectedAssignment.description}
+                </p>
+
+            
+                {selectedAssignment.grade !== null && (
+                  <div
+                    className="p-3 rounded mb-4"
+                    style={{ backgroundColor: "rgba(255, 241, 174, 0.5)" }}
+                  >
+                    <h6 className="fw-bold mb-2">📄 Assignment Evaluated</h6>
+                    <p className="mb-1 fw-semibold">
+                      Grade:{" "}
+                      <span className="badge bg-dark ms-2">
+                        {selectedAssignment.grade} / 100
+                      </span>
+                    </p>
+
+                    {selectedAssignment.feedback && (
+                      <div className="mt-2">
+                        <strong>Feedback:</strong>
+                        <p
+                          className="mt-1 mb-0"
+                          style={{
+                            backgroundColor: "transparent",
+                            fontStyle: "italic",
+                            paddingLeft: "5px",
+                          }}
+                        >
+                          {selectedAssignment.feedback}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 <iframe
                   src={selectedAssignment.file_url}
                   title="Assignment PDF"
