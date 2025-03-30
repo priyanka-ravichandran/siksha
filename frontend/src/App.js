@@ -6,7 +6,7 @@ import SubmittedAssignments from './pages/SubmittedAssignments';
 import GradeEvaluation from './pages/GradeEvaluation';
 import GradeAssignmentPage from './pages/GradeAssignmentPage';
 
-const userType = 'professor'; // Change to 'student' or 'professor'
+const userType = 'student'; // Change to 'student' or 'professor'
 
 const App = () => {
   return (
