@@ -1,8 +1,8 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
 
-const API_URL = "https://siksha.onrender/api/assignments/";
-const SIGNED_URL_API = "https://siksha.onrender/api/gcs/upload-url";
+const API_URL = "https://siksha.onrender.com/api/assignments/";
+const SIGNED_URL_API = "https://siksha.onrender.com/api/gcs/upload-url";
 
 const AssignmentSubmission = () => {
   const [title, setTitle] = useState("");
