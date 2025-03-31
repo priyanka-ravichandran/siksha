@@ -4,7 +4,11 @@ const router = express.Router();
 const { Storage } = require("@google-cloud/storage");
 require("dotenv").config();
 
-const storage = new Storage({ keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS });
+// Directly reference the Render-mounted secret path
+const storage = new Storage({
+  keyFilename: "/etc/secrets/gcs-key.json",
+});
+
 const bucket = storage.bucket(process.env.GCS_BUCKET);
 
 router.get("/upload-url", async (req, res) => {
