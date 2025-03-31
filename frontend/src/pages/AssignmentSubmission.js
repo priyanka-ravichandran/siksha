@@ -7,7 +7,7 @@ const SIGNED_URL_API = "http://localhost:5001/api/gcs/upload-url";
 const AssignmentSubmission = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [studentId, setStudentId] = useState("");
+  const [studentId] = useState(() => localStorage.getItem("userId") || "");
   const [file, setFile] = useState(null);
   const [errors, setErrors] = useState({});
   const [showToast, setShowToast] = useState(false);
@@ -20,7 +20,7 @@ const AssignmentSubmission = () => {
 
   const validateForm = () => {
     let newErrors = {};
-    if (!studentId) newErrors.studentId = "Student ID is required.";
+    if (!studentId) newErrors.studentId = "Student ID not found. Please log in again.";
     if (!title) newErrors.title = "Title is required.";
     if (!description) newErrors.description = "Description is required.";
     if (!file) newErrors.file = "File upload is required.";
@@ -59,7 +59,6 @@ const AssignmentSubmission = () => {
 
       setTitle("");
       setDescription("");
-      setStudentId("");
       setFile(null);
       setErrors({});
 
@@ -99,17 +98,7 @@ const AssignmentSubmission = () => {
       <div className="card shadow-sm p-4 bg-light w-50 mx-auto">
         <h3 className="text-dark mb-3 text-start">Upload Assignment</h3>
         <form onSubmit={handleSubmit} className="row g-3">
-          <div className="col-12">
-            <label className="form-label text-dark">Student ID</label>
-            <input
-              type="text"
-              className={`form-control ${errors.studentId ? "is-invalid" : ""}`}
-              value={studentId}
-              onChange={(e) => setStudentId(e.target.value)}
-            />
-            {errors.studentId && <div className="invalid-feedback">{errors.studentId}</div>}
-          </div>
-
+          {/* Title */}
           <div className="col-12">
             <label className="form-label text-dark">Title</label>
             <input
@@ -121,6 +110,7 @@ const AssignmentSubmission = () => {
             {errors.title && <div className="invalid-feedback">{errors.title}</div>}
           </div>
 
+          {/* Description */}
           <div className="col-12">
             <label className="form-label text-dark">Description</label>
             <textarea
@@ -132,6 +122,7 @@ const AssignmentSubmission = () => {
             {errors.description && <div className="invalid-feedback">{errors.description}</div>}
           </div>
 
+          {/* File Upload */}
           <div className="col-12">
             <label className="form-label text-dark">Upload File</label>
             <input
@@ -142,6 +133,7 @@ const AssignmentSubmission = () => {
             {errors.file && <div className="invalid-feedback">{errors.file}</div>}
           </div>
 
+          {/* Submit Button */}
           <div className="col-12 d-flex justify-content-center">
             <button type="submit" className="btn btn-warning text-dark fw-bold px-4">
               Submit Assignment

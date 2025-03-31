@@ -20,7 +20,7 @@ const Navbar = ({ userType }) => {
 
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
-            {userType === 'student' && (
+            {userType === 'Student' && (
               <>
                 <li className="nav-item">
                   <Link className="nav-link" to="/submit">Submit Assignment</Link>
@@ -32,7 +32,7 @@ const Navbar = ({ userType }) => {
               </>
             )}
 
-            {userType === 'professor' && (
+            {userType === 'Tutor' && (
               <li className="nav-item">
                 <Link className="nav-link" to="/grade">Grades</Link>
               </li>

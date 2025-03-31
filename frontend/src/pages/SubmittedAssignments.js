@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const STUDENT_ID = "962216";
-const API_URL = `http://localhost:5001/api/assignments/user/${STUDENT_ID}`;
-
 const SubmittedAssignments = () => {
   const [assignments, setAssignments] = useState([]);
   const [selectedAssignment, setSelectedAssignment] = useState(null);
 
   useEffect(() => {
+    const userId = localStorage.getItem("userId");
+
+    if (!userId) {
+      console.error("No user ID found in localStorage.");
+      return;
+    }
+
+    const API_URL = `http://localhost:5001/api/assignments/user/${userId}`;
+
     axios
       .get(API_URL)
       .then((res) => {
@@ -36,25 +42,17 @@ const SubmittedAssignments = () => {
                   style={{
                     cursor: "pointer",
                     backgroundColor:
-                      selectedAssignment?.id === assignment.id
-                        ? "#ffc107"
-                        : "",
+                      selectedAssignment?.id === assignment.id ? "#ffc107" : "",
                     color:
                       selectedAssignment?.id === assignment.id ? "#000" : "",
                     fontWeight:
-                      selectedAssignment?.id === assignment.id
-                        ? "bold"
-                        : "normal",
+                      selectedAssignment?.id === assignment.id ? "bold" : "normal",
                     borderColor:
-                      selectedAssignment?.id === assignment.id
-                        ? "#ffca2c"
-                        : "",
+                      selectedAssignment?.id === assignment.id ? "#ffca2c" : "",
                   }}
                   onClick={() => setSelectedAssignment(assignment)}
                 >
                   <strong>{assignment.title}</strong>
-                  <br />
-                  <small>{assignment.student_id}</small>
                 </li>
               ))}
             </ul>
@@ -72,7 +70,6 @@ const SubmittedAssignments = () => {
                   {selectedAssignment.description}
                 </p>
 
-            
                 {selectedAssignment.grade !== null && (
                   <div
                     className="p-3 rounded mb-4"

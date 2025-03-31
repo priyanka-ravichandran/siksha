@@ -1,16 +1,18 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const GradeAssignmentPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [assignment, setAssignment] = useState(null);
   const [grade, setGrade] = useState("");
   const [feedback, setFeedback] = useState("");
   const [toast, setToast] = useState({ show: false, message: "", type: "success" });
 
   const toastRef = useRef(null);
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     axios
@@ -24,7 +26,7 @@ const GradeAssignmentPage = () => {
 
     setTimeout(() => {
       setToast({ show: false, message: "", type: "success" });
-    }, 3000);
+    }, 2000);
   };
 
   const handleSubmit = () => {
@@ -34,8 +36,15 @@ const GradeAssignmentPage = () => {
     }
 
     axios
-      .put(`http://localhost:5001/api/assignments/${id}/grade`, { grade, feedback })
-      .then(() => showToast("✅ Grade submitted successfully!", "success"))
+      .put(`http://localhost:5001/api/assignments/${id}/grade`, {
+        grade,
+        feedback,
+        graded_by: userId,
+      })
+      .then(() => {
+        showToast("✅ Grade submitted successfully!", "success");
+        setTimeout(() => navigate(-1), 1000);
+      })
       .catch(() => showToast("❌ Failed to submit grade", "danger"));
   };
 
@@ -43,10 +52,8 @@ const GradeAssignmentPage = () => {
 
   return (
     <div className="container mt-5">
-      <div
-        className="toast-container position-fixed top-0 end-0 p-3"
-        style={{ zIndex: 9999 }}
-      >
+      {/* Toast Message */}
+      <div className="toast-container position-fixed top-0 end-0 p-3" style={{ zIndex: 9999 }}>
         <div
           ref={toastRef}
           className={`toast align-items-center text-white bg-${toast.type} ${toast.show ? "show" : "hide"}`}
@@ -68,33 +75,58 @@ const GradeAssignmentPage = () => {
           <h3 className="fw-bold mb-4">Grade Assignment</h3>
           <p><strong>Title:</strong> {assignment.title}</p>
           <p><strong>Description:</strong> {assignment.description}</p>
-          <p><strong>Student ID:</strong> {assignment.student_id}</p>
 
-          <div className="mb-3">
-            <label className="form-label">Grade (0–100)</label>
-            <input
-              type="number"
-              className="form-control"
-              value={grade}
-              onChange={(e) => setGrade(e.target.value)}
-              placeholder="Enter grade"
-            />
-          </div>
+          {assignment.grade !== null ? (
+            <>
+              <div className="mb-3">
+                <label className="form-label fw-bold">Grade</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={`${assignment.grade} / 100`}
+                  readOnly
+                />
+              </div>
 
-          <div className="mb-3">
-            <label className="form-label">Feedback</label>
-            <textarea
-              className="form-control"
-              rows="4"
-              value={feedback}
-              onChange={(e) => setFeedback(e.target.value)}
-              placeholder="Enter feedback"
-            />
-          </div>
+              <div className="mb-3">
+                <label className="form-label fw-bold">Feedback</label>
+                <textarea
+                  className="form-control"
+                  rows="4"
+                  value={assignment.feedback || "No feedback"}
+                  readOnly
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="mb-3">
+                <label className="form-label">Grade (0–100)</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  value={grade}
+                  onChange={(e) => setGrade(e.target.value)}
+                  placeholder="Enter grade"
+                />
+              </div>
 
-          <button className="btn btn-warning fw-bold" onClick={handleSubmit}>
-            Submit Grade
-          </button>
+              <div className="mb-3">
+                <label className="form-label">Feedback</label>
+                <textarea
+                  className="form-control"
+                  rows="4"
+                  value={feedback}
+                  onChange={(e) => setFeedback(e.target.value)}
+                  placeholder="Enter feedback"
+                />
+              </div>
+
+              <button className="btn btn-warning fw-bold" onClick={handleSubmit}>
+                Submit Grade
+              </button>
+            </>
+          )}
         </div>
 
         <div className="col-md-7">
