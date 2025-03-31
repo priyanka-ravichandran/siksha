@@ -1,13 +1,52 @@
 # csci-4177-SaaS-Siksha-Assignment-Sub
+🚀 Overview
+This is a full-stack Assignment Submission system built with:
 
+Frontend: React (Create React App)
+
+Backend: Node.js (Express)
+
+Database: MySQL
+
+Cloud Storage: Google Cloud Storage (GCS) for file uploads
+
+Containerized using Docker and Docker Compose
 
 
 ## Getting started
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+1. Clone the repository
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+git clone https://gitlab.com/your-username/your-repo-name.git
+cd your-repo-name
 
+2. Add your Google Cloud credentials
+
+Place your gcs-key.json file inside the backend/ folder. This should not be committed.
+
+3. Create the .env file in backend/
+
+Inside backend/, create a file named .env with the following content:
+
+GOOGLE_APPLICATION_CREDENTIALS=./gcs-key.json
+GCS_BUCKET=uploadfile1
+
+DB_HOST=db
+DB_USER=root
+DB_PASSWORD=root
+DB_NAME=siksha_db
+DB_PORT=3306
+Replace GCS_BUCKET with your actual bucket name.
+
+4. Run the App Locally (with Docker)
+
+From the root folder:
+
+Run this command -> docker-compose up --build
+
+Frontend will be available at: http://localhost:3000
+Backend API will be running at: http://localhost:5001/api
+MySQL DB runs inside the container (db) and auto-creates the siksha_db database
 ## Add your files
 
 - [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
