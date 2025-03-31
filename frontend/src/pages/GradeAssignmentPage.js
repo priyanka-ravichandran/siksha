@@ -16,7 +16,7 @@ const GradeAssignmentPage = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5001/api/assignments/${id}`)
+      .get(`https://siksha.onrender/api/assignments/${id}`)
       .then((res) => setAssignment(res.data))
       .catch((err) => console.error("Error fetching assignment:", err));
   }, [id]);
@@ -36,7 +36,7 @@ const GradeAssignmentPage = () => {
     }
 
     axios
-      .put(`http://localhost:5001/api/assignments/${id}/grade`, {
+      .put(`https://siksha.onrender/api/assignments/${id}/grade`, {
         grade,
         feedback,
         graded_by: userId,

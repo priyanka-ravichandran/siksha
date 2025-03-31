@@ -7,7 +7,7 @@ const GradeEvaluation = () => {
   const [assignments, setAssignments] = useState([]);
   const navigate = useNavigate();
 
-  const BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5001";
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL || "https://siksha.onrender";
   const API_URL = `${BASE_URL}/api/assignments`;
 
   useEffect(() => {

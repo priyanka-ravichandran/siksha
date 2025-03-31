@@ -13,7 +13,7 @@ const SubmittedAssignments = () => {
       return;
     }
 
-    const API_URL = `http://localhost:5001/api/assignments/user/${userId}`;
+    const API_URL = `https://siksha.onrender/api/assignments/user/${userId}`;
 
     axios
       .get(API_URL)
